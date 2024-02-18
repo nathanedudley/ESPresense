@@ -18,8 +18,9 @@ static inline String Sprintf(const char* format, ...) {
     char* buffer;
     va_list args;
     va_start(args, format);
-    vasprintf(&buffer, format, args);
+    int err = vasprintf(&buffer, format, args);
     va_end(args);
+    if (err < 0) return String();
     String result(buffer);
     free(buffer);
     return result;
